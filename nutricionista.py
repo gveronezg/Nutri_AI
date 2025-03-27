@@ -1,12 +1,19 @@
 from langchain_openai import ChatOpenAI
-from langchain.agents import initialize_agent
+from langchain.agents import initialize_agent, AgentType
+from langchain.memory import ConversationBufferMemory
+from langchain_community.chat_message_histories import SQLChatMessageHistory
+from dotenv import load_dotenv
+from food_image_analyzer import FoodImageAnalyzerTool
+
+load_dotenv()
 
 class AgenteNutricionista:
-    def __init__(self) -> None:
+    def __init__(self, session_id, db_path='sqlite://memory.db') -> None:
         self.llm = ChatOpenAI(
             model='gpt-4o-mini',
             temperature=0.1
         )
+        
         system_prompt = '''
             Backstory:
             Esse agente é uma referência global no campo da nutrição, apelidado de "Mestre dos Alimentos". Consultado por atletas esportivos de alto desempenho,
@@ -22,8 +29,33 @@ class AgenteNutricionista:
             criando um ambiente que pareça um "laboratório" virtual alimentação.
         '''
         
+        self.chat_history = SQLChatMessageHistory(
+            session_id=session_id,
+            connection=db_path
+        )
+        
+        self.memory = ConversationBufferMemory(
+            memory_key='chat_history',
+            chat_memory=self.chat_history,
+            return_messages=True
+        )
+        
         self.agent = initialize_agent(
             llm=self.llm,
-            tools=[],
-            
+            tools=[FoodImageAnalyzerTool()],
+            agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
+            verbose=True,
+            memory=self.memory,
+            agent_kwargs={
+                'system_message': system_prompt
+            }
         )
+
+    def run(self, input_text):
+        try:
+            response = self.agent.run(input_text)
+            print(f'Agent Response: {response}')
+            return response
+        except Exception as err:
+            print(f'Error {err}')
+            return 'Desculpe, não consegui processar a sua solicitação.'
