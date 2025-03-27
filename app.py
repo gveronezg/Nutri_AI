@@ -1,5 +1,4 @@
-from nutricionista import AgenteNutricionista
+from telegram import TelegramBot
 
-agente = AgenteNutricionista()
-
-agente.run('Olá, você pode me ajudar com uma dieta?')
+bot = TelegramBot()
+bot.run()
