@@ -37,12 +37,27 @@ git clone https://github.com/seu-usuario/Nutri_AI.git
 cd Nutri_AI
 ```
 
-2. Instale as dependências:
+2. Crie e ative o ambiente virtual com o Poetry:
+- Instale o Poetry se ainda não tiver instalado.
+- Crie um ambiente virtual:
+```bash
+poetry init
+```
+- Instale as dependências do projeto:
+```bash
+poetry install
+```
+- Ative o ambiente virtual:
+```bash
+poetry shell
+```
+
+3. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Configure as variáveis de ambiente:
+4. Configure as variáveis de ambiente:
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 ```
 TELEGRAM_API_ID=seu_api_id
@@ -51,7 +66,7 @@ TELEGRAM_TOKEN=seu_token
 OPENAI_API_KEY=sua_chave_api
 ```
 
-4. Execute o bot:
+5. Execute o bot:
 ```bash
 python app.py
 ```
@@ -75,10 +90,12 @@ Contribuições são bem-vindas! Por favor, siga estes passos:
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto/código foi confeccionado baseado no material da [vídeo-aula](https://www.youtube.com/watch?v=W2Hk_KG2vPc) presente publicamente no YouTube. Algumas modificações foram feitas para personalização e aprendizado.
+A distribuição deste código deve seguir os termos de licença do professor, se disponível, ou ser usada para fins pessoais e educacionais apenas.
 
 ## 👥 Autores
 
+- Samuel.Asimov - [@samuel-asimov](https://github.com/samuel-asimov)
 - Gabriel V.G. - [@gveronezg](https://github.com/gveronezg)
 
 ## 🙏 Agradecimentos
